@@ -68,6 +68,7 @@
 		<module>test-helper</module>
 		<module>sample</module>
 		<module>daml</module>
+		<module>haskell</module>
 		<module>default-cdm-generators</module>
 		<module>typescript</module>
 		<module>scala</module>

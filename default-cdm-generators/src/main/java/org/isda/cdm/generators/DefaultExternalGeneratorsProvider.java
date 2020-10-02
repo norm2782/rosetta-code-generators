@@ -9,6 +9,7 @@ import com.google.inject.Provider;
 import com.regnosys.rosetta.generator.c_sharp.CSharp8CodeGenerator;
 import com.regnosys.rosetta.generator.c_sharp.CSharp9CodeGenerator;
 import com.regnosys.rosetta.generator.daml.DamlCodeGenerator;
+import com.regnosys.rosetta.generator.haskell.HaskellCodeGenerator;
 import com.regnosys.rosetta.generator.external.ExternalGenerator;
 import com.regnosys.rosetta.generator.external.ExternalGenerators;
 import com.regnosys.rosetta.generator.golang.GolangCodeGenerator;
@@ -27,6 +28,9 @@ public final class DefaultExternalGeneratorsProvider implements Provider<Externa
 	private DamlCodeGenerator damlGenerator;
 
 	@Inject
+	private HaskellCodeGenerator haskellGenerator;
+
+	@Inject
 	private ScalaCodeGenerator scalaGenerator;
 
 	@Inject
@@ -42,7 +46,7 @@ public final class DefaultExternalGeneratorsProvider implements Provider<Externa
 
 	private final class DefaultGenerators implements ExternalGenerators {
 
-		private List<ExternalGenerator> gens = Arrays.asList(damlGenerator, scalaGenerator, typescriptGenerator,
+		private List<ExternalGenerator> gens = Arrays.asList(damlGenerator, haskellGenerator, scalaGenerator, typescriptGenerator,
 				golangGenerator, csharp8Generator, csharp9Generator);
 
 		@Override
