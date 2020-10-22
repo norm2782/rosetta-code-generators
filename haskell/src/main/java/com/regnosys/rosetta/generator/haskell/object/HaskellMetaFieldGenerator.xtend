@@ -18,21 +18,23 @@ class HaskellMetaFieldGenerator {
 		module Org.Isda.Cdm.MetaFields
 		  ( module Org.Isda.Cdm.MetaFields ) where
 		
-		data MetaFields = MetaFields with
+		data MetaFields = MetaFields {
 		  «FOR type : types.distinctBy(t|t.name.toFirstLower)»
-		      «type.name.toFirstLower» : Optional «type.type.name.toHaskellType»
+		      «type.name.toFirstLower» :: Maybe «type.type.name.toHaskellType»,
 		  «ENDFOR»
-		  globalKey : Optional Text
-		  externalKey : Optional Text
+		  globalKey :: Maybe Text,
+		  externalKey :: Maybe Text
+		  }
 		    deriving (Eq, Ord, Show)
 		
-		data MetaAndTemplateFields = MetaAndTemplateFields with
+		data MetaAndTemplateFields = MetaAndTemplateFields {
 		  «FOR type : types.distinctBy(t|t.name.toFirstLower)»
-		      «type.name.toFirstLower» : Optional «type.type.name.toHaskellType»
+		      «type.name.toFirstLower» :: Maybe «type.type.name.toHaskellType»,
 		  «ENDFOR»
-		  globalKey : Optional Text
-		  externalKey : Optional Text
-		  templateGlobalReference : Optional Text
+		  globalKey :: Maybe Text,
+		  externalKey :: Maybe Text,
+		  templateGlobalReference :: Maybe Text
+		  }
 		    deriving (Eq, Ord, Show)
 	'''
 }

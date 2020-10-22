@@ -8,7 +8,7 @@ import Org.Isda.Cdm.Enums
 import Org.Isda.Cdm.ZonedDateTime
 import Org.Isda.Cdm.MetaClasses
 import Org.Isda.Cdm.MetaFields
-import Prelude hiding (Party, exercise, id, product, agreement)
+import Prelude hiding (id)
 
 -- | A sample data
 data DataFoo = DataFoo {

@@ -31,7 +31,7 @@ class HaskellModelObjectGeneratorTest {
 		assertTrue(classes.contains('''import Org.Isda.Cdm.Enums'''))
 		assertTrue(classes.contains('''import Org.Isda.Cdm.ZonedDateTime'''))
 		assertTrue(classes.contains('''import Org.Isda.Cdm.MetaClasses'''))
-		assertTrue(classes.contains('''import Prelude hiding (Party, exercise, id, product, agreement)'''))
+		assertTrue(classes.contains('''import Prelude hiding (id)'''))
 	}
 
 	@Test
@@ -48,14 +48,15 @@ class HaskellModelObjectGeneratorTest {
 		'''.generateHaskell.get("Org/Isda/Cdm/Classes.hs").toString
 
 		assertTrue(classes.contains('''
-		data Foo = Foo with 
-		  booleanAttr : Bool
-		  dateAttr : Date
-		  intAttr : Int
-		  numberAttr : Decimal
-		  stringAttr : Text
-		  timeAttr : Text
-		  zonedDateTimeAttr : ZonedDateTime
+		data Foo = Foo {
+		  booleanAttr :: Bool,
+		  dateAttr :: Date,
+		  intAttr :: Int,
+		  numberAttr :: Decimal,
+		  stringAttr :: Text,
+		  timeAttr :: Text,
+		  zonedDateTimeAttr :: ZonedDateTime
+		  }
 		    deriving (Eq, Ord, Show)'''))
 	}
 
@@ -67,8 +68,9 @@ class HaskellModelObjectGeneratorTest {
 		'''.generateHaskell.get("Org/Isda/Cdm/Classes.hs").toString
 		
 		assertTrue(classes.contains('''
-		data Foo = Foo with 
-		  stringAttr : Optional Text
+		data Foo = Foo {
+		  stringAttr :: Maybe Text
+		  }
 		    deriving (Eq, Ord, Show)'''))
 	}
 
@@ -82,10 +84,11 @@ class HaskellModelObjectGeneratorTest {
 		assertTrue(classes.contains('''
 		-- | This is the class comment which should wrap if the
 		--   line is long enough.
-		data Foo = Foo with 
-		  stringAttr : Optional Text
+		data Foo = Foo {
+		  stringAttr :: Maybe Text
 		    -- ^ This is the attribute comment which should also wrap
 		    --   if long enough
+		  }
 		    deriving (Eq, Ord, Show)'''))
 	}
 
@@ -97,8 +100,9 @@ class HaskellModelObjectGeneratorTest {
 		'''.generateHaskell.get("Org/Isda/Cdm/Classes.hs").toString
 		
 		assertTrue(classes.contains('''
-		data Foo = Foo with 
-		  stringAttrs : [Text]
+		data Foo = Foo {
+		  stringAttrs :: [Text]
+		  }
 		    deriving (Eq, Ord, Show)'''))
 	}
 	
@@ -115,8 +119,9 @@ class HaskellModelObjectGeneratorTest {
 		val classes = code.get("Org/Isda/Cdm/Classes.hs").toString
 		
 		assertTrue(classes.contains('''
-		data Foo = Foo with 
-		  stringAttr : (FieldWithMeta Text)
+		data Foo = Foo {
+		  stringAttr :: (FieldWithMeta Text)
+		  }
 		    deriving (Eq, Ord, Show)'''))
 
 		val metaFields = code.get("Org/Isda/Cdm/MetaFields.hs").toString
@@ -128,10 +133,11 @@ class HaskellModelObjectGeneratorTest {
 		module Org.Isda.Cdm.MetaFields
 		  ( module Org.Isda.Cdm.MetaFields ) where
 		
-		data MetaFields = MetaFields with
-		  scheme : Optional Text
-		  globalKey : Optional Text
-		  externalKey : Optional Text
+		data MetaFields = MetaFields {
+		  scheme :: Maybe Text,
+		  globalKey :: Maybe Text,
+		  externalKey :: Maybe Text
+		  }
 		    deriving (Eq, Ord, Show)'''))
 	}
 	
@@ -146,8 +152,9 @@ class HaskellModelObjectGeneratorTest {
 		'''.generateHaskell.get("Org/Isda/Cdm/Classes.hs").toString
 		
 		assertTrue(classes.contains('''
-		data Foo = Foo with 
-		  barAttr : Optional Bar
+		data Foo = Foo {
+		  barAttr :: Maybe Bar
+		  }
 		    deriving (Eq, Ord, Show)'''))
 	}
 	
@@ -168,14 +175,16 @@ class HaskellModelObjectGeneratorTest {
 		val classes = code.get("Org/Isda/Cdm/Classes.hs").toString
 		
 		assertTrue(classes.contains('''
-		data Bar = Bar with 
-		  meta : Optional MetaFields
-		  stringAttr : Text
+		data Bar = Bar {
+		  meta :: Maybe MetaFields,
+		  stringAttr :: Text
+		  }
 		    deriving (Eq, Ord, Show)'''))
 
 		assertTrue(classes.contains('''
-		data Foo = Foo with 
-		  barReference : Optional (ReferenceWithMeta Bar)
+		data Foo = Foo {
+		  barReference :: Maybe (ReferenceWithMeta Bar)
+		  }
 		    deriving (Eq, Ord, Show)'''))
 
 		val metaFields = code.get("Org/Isda/Cdm/MetaFields.hs").toString
@@ -187,9 +196,10 @@ class HaskellModelObjectGeneratorTest {
 		module Org.Isda.Cdm.MetaFields
 		  ( module Org.Isda.Cdm.MetaFields ) where
 		
-		data MetaFields = MetaFields with
-		  globalKey : Optional Text
-		  externalKey : Optional Text
+		data MetaFields = MetaFields {
+		  globalKey :: Maybe Text,
+		  externalKey :: Maybe Text
+		  }
 		    deriving (Eq, Ord, Show)'''))
 	}
 	
@@ -206,8 +216,9 @@ class HaskellModelObjectGeneratorTest {
 		val classes = code.get("Org/Isda/Cdm/Classes.hs").toString
 		
 		assertTrue(classes.contains('''
-		data Foo = Foo with 
-		  stringReference : Optional (BasicReferenceWithMeta Text)
+		data Foo = Foo {
+		  stringReference :: Maybe (BasicReferenceWithMeta Text)
+		  }
 		    deriving (Eq, Ord, Show)'''))
 
 		val metaFields = code.get("Org/Isda/Cdm/MetaFields.hs").toString
@@ -221,9 +232,10 @@ class HaskellModelObjectGeneratorTest {
 		module Org.Isda.Cdm.MetaFields
 		  ( module Org.Isda.Cdm.MetaFields ) where
 		
-		data MetaFields = MetaFields with
-		  globalKey : Optional Text
-		  externalKey : Optional Text
+		data MetaFields = MetaFields {
+		  globalKey :: Maybe Text,
+		  externalKey :: Maybe Text
+		  }
 		    deriving (Eq, Ord, Show)'''))
 	}
 	

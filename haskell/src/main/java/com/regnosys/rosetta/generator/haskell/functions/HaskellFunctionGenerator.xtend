@@ -37,7 +37,7 @@ class HaskellFunctionGenerator {
 		import Org.Isda.Cdm.ZonedDateTime
 		import Org.Isda.Cdm.MetaClasses
 		import Org.Isda.Cdm.MetaFields
-		import Prelude hiding (Party, exercise, id, product, agreement)
+		import Prelude hiding (id)
 		
 		«FOR f : functions»
 			«writeFunction(f)»
@@ -50,10 +50,11 @@ class HaskellFunctionGenerator {
 	private def dispatch writeFunction(Function f)
 	'''
 		«classComment("Function argument object definition for "+f.name)»
-		data «f.name.toFirstUpper»Spec = «f.name.toFirstUpper»Spec with
-		  «FOR input : f.inputs»
-		  «input.name» : «input.toType»
+		data «f.name.toFirstUpper»Spec = «f.name.toFirstUpper»Spec {
+		  «FOR input : f.inputs SEPARATOR ',' »
+		  «input.name» :: «input.toType»
 		  «ENDFOR»
+		  }
 		    deriving (Eq, Ord, Show)
 		
 		«classComment("Function definition for "+f.name)»
