@@ -12,18 +12,18 @@ import Prelude hiding (id)
 
 -- | A sample data
 data DataFoo = DataFoo {
-    intAttribute :: Int
-  , multipleAttribute :: [Foo]
-  , stringAttribute :: Text
+  intAttribute :: Int,
+  multipleAttribute :: [Foo],
+  stringAttribute :: Text
   }
     deriving (Eq, Ord, Show)
 
 -- | A sample class
 data Foo = Foo {
-    dataAttribute :: DataFoo
-  , intAttribute :: Int
-  , multipleAttribute :: [Text]
-  , stringAttribute :: Text
+  dataAttribute :: DataFoo,
+  intAttribute :: Int,
+  multipleAttribute :: [Text],
+  stringAttribute :: Text
   }
     deriving (Eq, Ord, Show)
 
